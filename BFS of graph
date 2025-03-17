@@ -1,0 +1,60 @@
+
+// User function Template for Java
+class Solution {
+    // Function to return Breadth First Traversal of given graph.
+    public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        // code here
+        
+      /*
+    📌 **Problem Statement:**
+    Given an **undirected graph** with `V` vertices,
+    represented as an adjacency list `adj`,
+    perform a **Breadth-First Traversal (BFS)** starting from **node 0**.
+
+    The BFS traversal visits all nodes **level by level**, 
+    ensuring each node is visited **before** its adjacent nodes.
+
+    ---
+    
+    🔹 **Approach:**
+    1. **Initialize Required Data Structures**:
+       - Use a **queue (`Queue<Integer> q`)** for BFS traversal.
+       - Use a **boolean visited array (`vis[]`)** to track visited nodes.
+       - Store the BFS traversal order in an **array list (`lst`)**.
+
+    2. **BFS Traversal Process**:
+       - Start from **node `0`** (push to queue and mark as visited).
+       - While the queue is **not empty**:
+         - Remove the front node from the queue.
+         - Add it to the result list.
+         - Visit all **unvisited adjacent nodes**, mark them as visited, and push them to the queue.
+
+    3. **Return the Traversal Order**:
+       - The final **list contains nodes in BFS order**.
+*/
+
+        // Step 1: Initialize the result list and visited array
+        ArrayList<Integer> lst = new ArrayList<>();
+        boolean vis[] = new boolean[V];
+
+        // Step 2: Initialize queue for BFS
+        Queue<Integer> q = new LinkedList<>();
+        q.add(0); // Start BFS from node 0
+        vis[0] = true;
+
+        // Step 3: Perform BFS traversal
+        while (!q.isEmpty()) {
+            int node = q.poll(); // Remove the front node
+            lst.add(node); // Add node to BFS result
+
+            // Visit all adjacent nodes
+            for (Integer it : adj.get(node)) {
+                if (!vis[it]) {
+                    vis[it] = true;
+                    q.add(it);
+                }
+            }
+        }
+        return lst; // Return BFS traversal order
+    }
+}
