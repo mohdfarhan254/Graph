@@ -1,0 +1,52 @@
+
+class Solution {
+    // Function to return a list containing the DFS traversal of the graph.
+    public ArrayList<Integer> dfsOfGraph(ArrayList<ArrayList<Integer>> adj) {
+
+    /*
+    📌 **Problem Statement:**
+    Given an **undirected graph** represented as an adjacency list `adj`,  
+    perform a **Depth-First Search (DFS) Traversal** starting from **node 0**.
+
+    DFS is a **recursive approach** that explores as far as possible  
+    along each branch before backtracking.
+
+    ---
+
+    🔹 **Approach:**
+    1. **Initialize Required Data Structures**:
+       - Use a **boolean visited array (`vis[]`)** to track visited nodes.
+       - Store the DFS traversal order in an **array list (`lst`)**.
+
+    2. **Recursive DFS Function**:
+       - Start from **node `0`**.
+       - Mark the node as **visited** and add it to the result list.
+       - Recursively call DFS for all **unvisited adjacent nodes**.
+
+    3. **Return the Traversal Order**:
+       - The final **list contains nodes in DFS order**.
+*/
+
+        // Step 1: Initialize the result list and visited array
+        ArrayList<Integer> lst = new ArrayList<>();
+        boolean vis[] = new boolean[adj.size()];
+
+        // Step 2: Start DFS from node 0
+        dfs(0, lst, vis, adj);
+
+        return lst; // Return DFS traversal order
+    }
+
+    // Recursive DFS function
+    void dfs(int node, ArrayList<Integer> lst, boolean vis[], ArrayList<ArrayList<Integer>> adj) {
+        vis[node] = true; // Mark node as visited
+        lst.add(node); // Add node to DFS result
+
+        // Traverse all adjacent nodes
+        for (Integer it : adj.get(node)) {
+            if (!vis[it]) {
+                dfs(it, lst, vis, adj); // Recursive DFS call
+            }
+        }
+    }
+}
