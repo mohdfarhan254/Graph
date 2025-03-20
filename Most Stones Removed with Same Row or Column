@@ -1,0 +1,60 @@
+class Solution {
+    public int removeStones(int[][] stones) {
+      
+        /*
+        🔹 Approach:
+        - Treat stones as a graph where each stone is a node.
+        - Two stones are connected if they share the same row or column.
+        - Use DFS to count the number of connected components (`cnt`).
+        - The max stones we can remove = `Total Stones - Number of Components` (n - cnt).
+
+          so cnt component gives me how many components are 
+          which exactly tell  mini stones needed to keep all component
+          so remove all stones except one element from each component 
+          and to get the max removed value we can use formula by removing the no of component form the total sones  
+        */
+
+        int n = stones.length;  // Total number of stones
+        List<List<Integer>> adj = new ArrayList<>();  // Adjacency list representation of the graph
+        
+        // Initialize adjacency list
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Build the graph (Connect stones that share the same row or column)
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]) { // Same row or column
+                    adj.get(i).add(j);
+                    adj.get(j).add(i);
+                }
+            }
+        }
+
+        boolean[] vis = new boolean[n];  // Visited array
+        int cnt = 0;  // Count of connected components
+        
+        // Traverse all stones
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {  // If stone is not visited, it's a new component
+                cnt++;  
+                dfs(i, vis, adj);  // Perform DFS traversal
+            }
+        }
+
+        // Maximum stones that can be removed = Total Stones - Connected Components
+        return n - cnt;
+    }
+
+    // DFS function to explore the component
+    private void dfs(int u, boolean[] vis, List<List<Integer>> graph) {
+        if (vis[u]) return;  // If already visited, return
+        vis[u] = true;  // Mark current node as visited
+        
+        // Visit all connected nodes
+        for (int v : graph.get(u)) {
+            dfs(v, vis, graph);
+        }
+    }
+}
